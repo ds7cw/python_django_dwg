@@ -15,6 +15,8 @@ import os
 from dotenv  import load_dotenv
 from pathlib import Path
 
+from django.urls import reverse_lazy
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -34,6 +36,9 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+USER_APPRS = [
+    'project.accounts',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+] + USER_APPRS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -125,3 +130,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'accounts.AppUser'
+
+# LOGIN_REDIRECT_URL = reverse_lazy('index-page')
+
+# LOGOUT_REDIRECT_URL = reverse_lazy('login-page')
