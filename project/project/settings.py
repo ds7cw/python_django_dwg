@@ -38,6 +38,7 @@ ALLOWED_HOSTS = []
 # Application definition
 USER_APPRS = [
     'project.accounts',
+    'project.common',
 ]
 
 INSTALLED_APPS = [
