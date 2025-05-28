@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/htmx.org@1.9.4"></script>
+    <title>HTMX-Home</title>
+</head>
+<body>
+    <h1>HTMX + Django Example</h1>
+        
+        <button hx-get="/htmx-updated/" hx-target="#message">
+            Click to Update Message
+        </button>
+
+        <div id="message">
+            <p>Original message before update.</p>
+        </div>
+<div id="result"></div>
+
+</body>
+</html>
