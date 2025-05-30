@@ -1,6 +1,11 @@
-<p>This is the new updated message!</p>
-<ul>
-    <p>P1</p>
-    <p>P2</p>
-    <p>P3</p>
-</ul>
+<div id="guess-row" hx-swap="outerHTML">
+    {% for i in "12345" %}
+        <div class="guess-cell">
+            {% if guess|length > forloop.counter0 %}
+                {{ guess|slice:forloop.counter0|slice:":1" }}
+            {% else %}
+                _
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>

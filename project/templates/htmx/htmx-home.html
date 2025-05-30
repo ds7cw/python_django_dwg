@@ -4,19 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/htmx.org@1.9.4"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        #guess-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .guess-cell {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #000;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        #keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .key-row {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+        button {
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
     <title>HTMX-Home</title>
 </head>
 <body>
-    <h1>HTMX + Django Example</h1>
-        
-        <button hx-get="/htmx-updated/" hx-target="#message">
-            Click to Update Message
-        </button>
+    <h1>DWG 🎯</h1>
 
-        <div id="message">
-            <p>Original message before update.</p>
+    <!-- Centered Guess Row -->
+    <div id="guess-row">
+        <div class="guess-cell" id="cell1">_</div>
+        <div class="guess-cell" id="cell2">_</div>
+        <div class="guess-cell" id="cell3">_</div>
+        <div class="guess-cell" id="cell4">_</div>
+        <div class="guess-cell" id="cell5">_</div>
+    </div>
+
+    <!-- Keyboard Layout -->
+    <div id="keyboard">
+        <div class="key-row">
+            {% for letter in "QWERTYUIOP" %}
+                <button hx-get="/htmx-updated/?letter={{ letter }}" hx-target="#guess-row">
+                    {{ letter }}
+                </button>
+            {% endfor %}
         </div>
-<div id="result"></div>
+        <div class="key-row">
+            {% for letter in "ASDFGHJKL" %}
+                <button hx-get="/htmx-updated/?letter={{ letter }}" hx-target="#guess-row">
+                    {{ letter }}
+                </button>
+            {% endfor %}
+        </div>
+        <div class="key-row">
+            {% for letter in "ZXCVBNM" %}
+                <button hx-get="/htmx-updated/?letter={{ letter }}" hx-target="#guess-row">
+                    {{ letter }}
+                </button>
+            {% endfor %}
+        </div>
+    </div>
+
+<script>
+    document.body.addEventListener("htmx:afterRequest", function(event) {
+        const data = JSON.parse(event.detail.xhr.responseText);
+        const guess = data.guess.split("");
+
+        guess.forEach((char, index) => {
+            if (index < 5) {
+                document.getElementById(`cell${index+1}`).innerText = char;
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
