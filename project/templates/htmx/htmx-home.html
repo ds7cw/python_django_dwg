@@ -50,7 +50,7 @@
     <title>HTMX-Home</title>
 </head>
 <body>
-    <h1>DWG 🎯</h1>
+    <h1>DWG</h1>
 
     <!-- Centered Guess Row -->
     <div id="guess-row">
@@ -65,28 +65,42 @@
     <div id="keyboard">
         <div class="key-row">
             {% for letter in "QWERTYUIOP" %}
-                <button hx-get="/htmx-updated/?letter={{ letter }}" hx-target="#guess-row">
+                <button hx-get="/htmx-updated/" hx-target="#guess-row" hx-vals='js:{letter: "{{ letter }}"}'>
                     {{ letter }}
                 </button>
             {% endfor %}
         </div>
         <div class="key-row">
             {% for letter in "ASDFGHJKL" %}
-                <button hx-get="/htmx-updated/?letter={{ letter }}" hx-target="#guess-row">
+                <button hx-get="/htmx-updated/" hx-target="#guess-row" hx-vals='js:{letter: "{{ letter }}"}'>
                     {{ letter }}
                 </button>
             {% endfor %}
         </div>
         <div class="key-row">
+            <button hx-get="/check-guess/" hx-trigger="click" hx-target="#feedback" hx-swap="innerHTML">
+                Enter
+            </button>
             {% for letter in "ZXCVBNM" %}
-                <button hx-get="/htmx-updated/?letter={{ letter }}" hx-target="#guess-row">
+                <button hx-get="/update-guess/?letter={{ letter }}" hx-target="#guess-row">
                     {{ letter }}
                 </button>
             {% endfor %}
         </div>
     </div>
-
+    <div id="feedback"></div> <!-- This will show the result -->
 <script>
+    document.body.addEventListener("htmx:afterRequest", function(event) {
+        const response = JSON.parse(event.detail.xhr.responseText);
+        const feedback = response.feedback;
+
+        feedback.forEach((item, index) => {
+            document.querySelectorAll(".guess-cell")[index].style.backgroundColor = item.color;
+        });
+    });
+</script>
+
+    <!-- <script>
     document.body.addEventListener("htmx:afterRequest", function(event) {
         const data = JSON.parse(event.detail.xhr.responseText);
         const guess = data.guess.split("");
@@ -97,7 +111,7 @@
             }
         });
     });
-</script>
+</script> -->
 
 </body>
 </html>

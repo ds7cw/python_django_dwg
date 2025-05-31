@@ -1,11 +1,16 @@
+<!-- <div id="guess-row" hx-swap="outerHTML">
+    {% for i in guess %}
+        <div class="guess-cell">{{ i }}</div>
+    {% endfor %} -->
+    <!-- {% for _ in ""|center:5|slice:":{{ 5|add:-guess|length }}" %}
+        <div class="guess-cell">_</div>
+    {% endfor %} -->
+<!-- </div> -->
+ 
 <div id="guess-row" hx-swap="outerHTML">
-    {% for i in "12345" %}
-        <div class="guess-cell">
-            {% if guess|length > forloop.counter0 %}
-                {{ guess|slice:forloop.counter0|slice:":1" }}
-            {% else %}
-                _
-            {% endif %}
+    {% for i in guess %}
+        <div class="guess-cell" style="background-color: {{ feedback|slice:forloop.counter0|slice:':1' }}">
+            {{ i }}
         </div>
     {% endfor %}
 </div>
